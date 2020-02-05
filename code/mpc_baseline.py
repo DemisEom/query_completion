@@ -14,9 +14,14 @@ query_trie = pygtrie.CharTrie()
 
 dirname = '../data'
 filenames = ['queries01.train.txt.gz', 'queries02.train.txt.gz',
-             'queries03.train.txt.gz', 'queries04.train.txt.gz', 
+             'queries03.train.txt.gz', 'queries04.train.txt.gz',
              'queries05.train.txt.gz', 'queries06.train.txt.gz'
 ]
+
+# dirname = '../data_daum'
+# filenames = ['part-00000-698ffb1e-fec1-4c27-b0e1-bb8744fc5124-c000.csv.gz'
+#              ]
+
 df = LoadData([os.path.join(dirname, f) for f in filenames], split=False)
 z = df.query_.value_counts()
 z = z[z > 2]
@@ -66,7 +71,8 @@ def FastLoadDynamic(filename):
         dynamic_df['score'] = dynamic_df['score'].astype(float)
     return dynamic_df
 
-rank_data = FastLoadDynamic('../data/predictions.log.gz')
+# rank_data = FastLoadDynamic('../data/predictions.log.gz')
+# rank_data = FastLoadDynamic('../data_daum/predictions.log.gz')
 
 for i in range(len(rank_data)):
     row = rank_data.iloc[i]

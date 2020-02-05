@@ -45,8 +45,11 @@ logging.getLogger().addHandler(logging.StreamHandler())
 
 print("Load Dataset")
 df = LoadData(args.data)
+
+print("char vocab save")
 char_vocab = Vocab.MakeFromData(df.query_, min_count=10)
 char_vocab.Save(os.path.join(args.expdir, 'char_vocab.pickle'))
+
 params.vocab_size = len(char_vocab)
 user_vocab = Vocab.MakeFromData([[u] for u in df.user], min_count=15)
 user_vocab.Save(os.path.join(args.expdir, 'user_vocab.pickle'))
@@ -79,7 +82,7 @@ for idx in range(params.iters):
   if idx % 50 == 0 and idx > 0:
     # test one batch from the validation set
     val_c = session.run(model.avg_loss, valdata.GetFeedDict(model))
-    logging.info({'iter': idx, 'cost': cc, 'rawcost': c, 
+    logging.info({'iter': idx, 'cost': cc, 'rawcost': c,
                   'valcost': val_c})
   if idx % 2000 == 0:  # save a model file every 2,000 minibatches
     saver.save(session, os.path.join(expdir, 'model.bin'),
