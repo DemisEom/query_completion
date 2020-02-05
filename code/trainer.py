@@ -13,7 +13,6 @@ from model import Model
 from metrics import MovingAvg
 from vocab import Vocab
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument('expdir', help='experiment directory')
 parser.add_argument('--params', type=str, default='default_params.json',
@@ -29,9 +28,9 @@ args = parser.parse_args()
 expdir = args.expdir
 if not os.path.exists(expdir):
   os.mkdir(expdir)
-else:
-  print 'ERROR: expdir already exists'
-  exit(-1)
+# else:
+#   print('ERROR: expdir already exists')
+#   exit(-1)
 
 
 tf.set_random_seed(int(time.time() * 1000))
@@ -44,6 +43,7 @@ logging.basicConfig(filename=os.path.join(expdir, 'logfile.txt'),
 logging.getLogger().addHandler(logging.StreamHandler())
 
 
+print("Load Dataset")
 df = LoadData(args.data)
 char_vocab = Vocab.MakeFromData(df.query_, min_count=10)
 char_vocab.Save(os.path.join(args.expdir, 'char_vocab.pickle'))
@@ -54,10 +54,13 @@ params.user_vocab_size = len(user_vocab)
 dataset = Dataset(df, char_vocab, user_vocab, max_len=params.max_len,
                   batch_size=params.batch_size)
 
+
 val_df = LoadData(args.valdata)
 valdata = Dataset(val_df, char_vocab, user_vocab, max_len=params.max_len,
                   batch_size=params.batch_size)
 
+
+print("Load Model Config")
 model = Model(params)
 saver = tf.train.Saver(tf.global_variables())
 config = tf.ConfigProto(inter_op_parallelism_threads=args.threads,

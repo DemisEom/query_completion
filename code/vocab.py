@@ -107,7 +107,7 @@ class Vocab(object):
         for i in range(self.vocab_size):
           f.write('{0}\n'.format(self.idx_to_word[i]))
     else:
-      print 'ERROR: bad file extension'
+      print('ERROR: bad file extension')
 
 
 if __name__ == '__main__':
@@ -120,4 +120,4 @@ if __name__ == '__main__':
     v = Vocab.Load(args.filename)
 
     for i in v.GetWords():
-      print i
+      print(i)

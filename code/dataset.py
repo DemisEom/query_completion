@@ -60,7 +60,7 @@ class Dataset(object):
         if model.use_time_features:
           feed_dict[model.dayofweek] = grp.dayofweek.values,
           feed_dict[model.hourofday] = grp.hourofday.values
-        for i in xrange(len(grp)):
+        for i in range(len(grp)):
             row = grp.iloc[i]              
             user_ids[i] = self.user_vocab[row.user]
             for j in range(row.lengths):

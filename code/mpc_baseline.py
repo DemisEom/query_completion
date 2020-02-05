@@ -25,6 +25,8 @@ for q, count in zip(z.index.values, z):
     query_trie[q] = count
 
 cache = {}
+
+
 def GetTopK(prefix, k=100):
     if prefix in cache:
         return cache[prefix]
